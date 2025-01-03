@@ -1,0 +1,56 @@
+{
+  "name": "@novastera-oss/currencies-info",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A comprehensive library providing up-to-date currency data, including symbols, ISO codes, and country associations. Ideal for developers needing accurate and customizable currency information for global applications. Powered by Novastera.",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "prepare": "npm run build",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.mjs",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/novastera/currencies-info.git"
+  },
+  "keywords": [
+    "currencies",
+    "iso",
+    "currency-symbols",
+    "countries",
+    "finance",
+    "money",
+    "invoice",
+    "crm",
+    "erp"
+  ],
+  "author": "Hassan Allybocus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/novastera/currencies-info/issues"
+  },
+  "homepage": "https://github.com/novastera/currencies-info#readme",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.24",
+    "rollup": "^4.29.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "jest": "^29.7.0",
+    "prettier": "^3.2.5",
+    "ts-jest": "^29.1.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3",
+    "@jest/globals": "^29.7.0",
+    "cross-env": "^7.0.3"
+  }
+}
