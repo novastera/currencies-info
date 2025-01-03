@@ -1,6 +1,6 @@
 {
   "name": "@novastera-oss/currencies-info",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "A comprehensive library providing up-to-date currency data, including symbols, ISO codes, and country associations. Ideal for developers needing accurate and customizable currency information for global applications. Powered by Novastera.",
   "main": "dist/index.js",

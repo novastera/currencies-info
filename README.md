@@ -1,4 +1,4 @@
-# @novastera/currencies-info
+# Novastera: Currencies information
 
 A comprehensive currency data library providing accurate currency information for global business applications. Includes up-to-date currency codes, symbols, decimal places, and country associations.
 

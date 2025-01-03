@@ -6,6 +6,7 @@ import type { Currencies } from './interfaces/Currency';
 const generateList = (options: Array<{ id: string }>) => 
   options.map(option => option.id);
 
+export * from './interfaces/Currency';
 export const CURRENCIES: Currencies = {
   list: [
     ...generateList(FIAT_CURRENCIES.options),
