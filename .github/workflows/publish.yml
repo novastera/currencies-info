@@ -1,6 +1,11 @@
 name: Publish Package to npmjs
 
-# Trigger the workflow when a release is published
+# Trusted publisher on npm must use workflow filename: publish.yml (exact match)
+# Configure at https://www.npmjs.com/package/@novastera-oss/currencies-info → Settings → Trusted Publisher
+#   Organization: novastera
+#   Repository: currencies-info
+#   Workflow filename: publish.yml
+#   Environment name: production
 on:
   release:
     types: [published]
@@ -14,29 +19,42 @@ jobs:
       contents: read
 
     steps:
-      # Step 1: Check out the repository code
       - name: Checkout code
         uses: actions/checkout@v6
 
-      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: '24'
+          # Do not set registry-url here: it writes an empty _authToken that
+          # blocks npm OIDC trusted publishing (ENEEDAUTH).
 
-      # Step 4: Install dependencies with npm ci (optimized for CI/CD)
+      - name: Ensure npm supports trusted publishing
+        run: npm install -g npm@latest
+
       - name: Install dependencies
         run: npm ci
 
-      # Step 6: Build the project
+      - name: Update version from release tag
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="${VERSION#v}"
+          echo "Publishing version: $VERSION"
+
+          node -e "
+            const fs = require('fs');
+            const pkg = require('./package.json');
+            pkg.version = '$VERSION';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+
+          echo "✅ Version updated to $VERSION"
+
       - name: Build the project
         run: npm run build
 
-      # Step 6: Test the project
-      - name: Build the project
-        run: npm run test
+      - name: Test the project
+        run: npm test
 
-      # Step 7: Publish the package to npm
       - name: Publish to NPM
-        run: |
-          npm publish --provenance --access public
+        run: npm publish --provenance --access public
