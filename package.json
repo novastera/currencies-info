@@ -1,17 +1,29 @@
 {
   "name": "@novastera-oss/currencies-info",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "type": "module",
   "description": "A comprehensive library providing up-to-date currency data, including symbols, ISO codes, and country associations. Ideal for developers needing accurate and customizable currency information for global applications. Powered by Novastera.",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.esm.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
   "files": [
     "dist",
     "README.md"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c && node scripts/verify-entrypoints.mjs",
     "prepare": "npm run build",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.mjs",
     "lint": "eslint . --ext .ts",

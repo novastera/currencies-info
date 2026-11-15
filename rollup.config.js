@@ -1,32 +1,44 @@
-const typescript = require('@rollup/plugin-typescript');
-const terser = require('@rollup/plugin-terser');
-const dts = require('rollup-plugin-dts');
+import { copyFileSync, rmSync } from 'node:fs';
+import typescript from '@rollup/plugin-typescript';
+import terser from '@rollup/plugin-terser';
+import dts from 'rollup-plugin-dts';
 
-module.exports = [
+rmSync('dist', { recursive: true, force: true });
+
+export default [
   {
     input: 'src/index.ts',
     output: [
       {
-        file: 'dist/index.js',
+        file: 'dist/index.cjs',
         format: 'cjs',
-        sourcemap: false
+        sourcemap: false,
+        exports: 'named',
       },
       {
         file: 'dist/index.esm.js',
         format: 'es',
-        sourcemap: false
-      }
+        sourcemap: false,
+      },
     ],
     plugins: [
       typescript({
-        tsconfig: './tsconfig.json'
+        tsconfig: './tsconfig.json',
       }),
-      terser()
-    ]
+      terser(),
+    ],
   },
   {
     input: 'src/index.ts',
     output: [{ file: 'dist/index.d.ts', format: 'es' }],
-    plugins: [dts()]
-  }
-]; 
+    plugins: [
+      dts(),
+      {
+        name: 'copy-cjs-types',
+        closeBundle() {
+          copyFileSync('dist/index.d.ts', 'dist/index.d.cts');
+        },
+      },
+    ],
+  },
+];
